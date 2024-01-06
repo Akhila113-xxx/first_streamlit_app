@@ -26,18 +26,6 @@ streamlit.dataframe(fruits_to_show)
 # New section to display fruity vice api responce
 streamlit.header('Fruityvice Fruit Advice!')
 import requests
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-streamlit.text(fruityvice_response.json())# just writes data to the screen
-#take the json version of the responce and normalize it
-fruityvice_normalized= pandas.json_normalize(fruityvice_response.json())
-#output it as a table
-streamlit.dataframe(fruityvice_normalized)
-
-
-
-# New section to display fruity vice api responce
-streamlit.header('Fruityvice Fruit Advice!')
-import requests
 fruityvice_response = requests.get("https://fruityvice.com/api/fruit/kiwi")
 #streamlit.text(fruityvice_response.json())# just writes data to the screen
 #take the json version of the responce and normalize it
@@ -62,7 +50,7 @@ fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_cho
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
+#my_data_row = my_cur.fetchone()
 streamlit.text("Hello from Snowflake:")
 streamlit.text(my_data_row)
 
