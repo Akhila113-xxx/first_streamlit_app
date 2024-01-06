@@ -1,4 +1,8 @@
 import streamlit
+import pandas
+import requests
+import snowflake.connector
+
 streamlit.title('My MOms  healthy diner')
 streamlit.header('Breakfast menu')
 streamlit.text('🥣 Omega 3  & blueberry oatmeal')
@@ -55,7 +59,6 @@ fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_cho
 
 ####################output is not as expected##############################
 
-import snowflake.connector
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
@@ -65,42 +68,16 @@ streamlit.text(my_data_row)
 
 
 ################################### Let's Query Some Data, Instead
-
-
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * from fruit_load_list")
-my_data_row = my_cur.fetchone()
-streamlit.text("The fruit load list contains:")
-streamlit.text(my_data_row)
-
-############################to look better
-
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * from fruit_load_list")
-my_data_row = my_cur.fetchone()
-streamlit.header("The fruit load list contains:")
-streamlit.dataframe(my_data_row)
-
-
-##########################Let's Get All the Rows, Not Just One
-
-
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * from fruit_load_list")
 my_data_rows = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
-import requests
+
 add_my_fruit=streamlit.text_input('what fruit would you like to add?')
 streamlit.write('The user entered',add_my_fruit)
 
 
 
 
-my_cur = my_cnx.cursor()
 my_cur.execute("insert into fruit_load_list values('from streamlit')")
 my_data_rows = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
